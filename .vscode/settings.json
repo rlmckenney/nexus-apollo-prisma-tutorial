@@ -1,0 +1,8 @@
+{
+  "jest.jestCommandLine": "npm test --",
+  "jest.autoRun": {
+    "watch": false,
+    "onSave": "test-file"
+  },
+  "git.ignoreLimitWarning": true
+}

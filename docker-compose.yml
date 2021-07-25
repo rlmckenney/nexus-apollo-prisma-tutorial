@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  db:
+    build: ./docker/postgres
+    image: postgres-dev-test
+    restart: always
+    environment:
+      POSTGRES_USER: prisma
+      POSTGRES_PASSWORD: prisma
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432

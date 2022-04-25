@@ -3,7 +3,12 @@ import * as q from './__queries'
 import {server} from '../api/server'
 
 beforeAll(async () => {
-  return initializeDatabase()
+  await initializeDatabase()
+  await server.executeOperation({
+    query: q.CREATE_AUTHOR,
+    variables: {firstName: 'Mickey', lastName: 'Mouse'}
+  })
+  return
 })
 afterAll(async () => {
   return resetDatabase()
@@ -27,7 +32,9 @@ describe('Post objects', () => {
     expect(result.data).toBeUndefined()
     expect(result.errors).toMatchInlineSnapshot(`
 Array [
-  [ValidationError: Field "createDraft" argument "authorId" of type "Int!" is required, but it was not provided.],
+  [UserInputError: Variable "$title" of required type "String!" was not provided.],
+  [UserInputError: Variable "$body" of required type "String!" was not provided.],
+  [UserInputError: Variable "$authorId" of required type "Int!" was not provided.],
 ]
 `)
   })

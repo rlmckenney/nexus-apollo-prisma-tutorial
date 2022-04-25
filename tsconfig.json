@@ -9,5 +9,7 @@
     "sourceMap": true,
     "esModuleInterop": true
   },
-  "exclude": ["node_modules", "./tests"]
+  "include": ["./**/*.ts", "./**/*.json", ".env"],
+  "exclude": ["node_modules", "./tests"],
+  "files": ["global.d.ts"]
 }

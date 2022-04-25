@@ -10,7 +10,7 @@ export async function initializeDatabase() {
 
 export async function resetDatabase() {
   // Clear the database after the tests
-  await db.$executeRaw('DROP SCHEMA IF EXISTS nexus_tutorial CASCADE')
+  await db.$executeRaw`DROP SCHEMA IF EXISTS nexus_tutorial CASCADE`
   // Release the Prisma Client connection
   await db.$disconnect()
   return

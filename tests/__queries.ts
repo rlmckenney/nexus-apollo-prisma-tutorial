@@ -1,12 +1,23 @@
 import {gql} from 'apollo-server'
 
+export const CREATE_AUTHOR = gql`
+  mutation Mutation($firstName: String!, $lastName: String!) {
+    createAuthor(firstName: $firstName, lastName: $lastName) {
+      id
+      firstName
+      lastName
+    }
+  }
+`
+
 export const CREATE_DRAFT = gql`
-  mutation CreateDraftPost($title: String!, $body: String!) {
-    createDraft(title: $title, body: $body) {
+  mutation CreateDraftPost($title: String!, $body: String!, $authorId: Int!) {
+    createDraft(title: $title, body: $body, authorId: $authorId) {
       id
       title
       body
       published
+      authorId
     }
   }
 `

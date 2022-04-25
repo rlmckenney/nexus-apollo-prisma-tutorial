@@ -2,14 +2,26 @@
 ### Do not make changes to this file directly
 
 
+type Author {
+  firstName: String
+  id: Int
+  lastName: String
+  posts: [Post]
+}
+
 type Mutation {
-  createDraft(body: String!, title: String!): Post!
+  createAuthor(firstName: String!, lastName: String!): Author!
+  createDraft(authorId: Int!, body: String!, title: String!): Post!
   publishDraft(draftId: Int!): Post
   recallPost(postId: Int!): Post
+  removeAuthor(authorId: Int!): Author
   removePost(postId: Int!): Post
+  updateDraft(body: String, draftId: Int!, title: String): Post
 }
 
 type Post {
+  author: Author
+  authorId: Int
   body: String
   id: Int
   published: Boolean
@@ -17,7 +29,9 @@ type Post {
 }
 
 type Query {
+  allAuthors: [Author]
   allPosts: [Post]
+  author(authorId: Int!): Author
   draftPosts: [Post]!
   post(postId: Int!): Post
   publishedPosts: [Post]

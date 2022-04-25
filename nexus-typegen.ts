@@ -28,8 +28,14 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Author: { // root type
+    firstName?: string | null; // String
+    id?: number | null; // Int
+    lastName?: string | null; // String
+  }
   Mutation: {};
   Post: { // root type
+    authorId?: number | null; // Int
     body?: string | null; // String
     id?: number | null; // Int
     published?: boolean | null; // Boolean
@@ -49,20 +55,33 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Author: { // field return type
+    firstName: string | null; // String
+    id: number | null; // Int
+    lastName: string | null; // String
+    posts: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
+  }
   Mutation: { // field return type
+    createAuthor: NexusGenRootTypes['Author']; // Author!
     createDraft: NexusGenRootTypes['Post']; // Post!
     publishDraft: NexusGenRootTypes['Post'] | null; // Post
     recallPost: NexusGenRootTypes['Post'] | null; // Post
+    removeAuthor: NexusGenRootTypes['Author'] | null; // Author
     removePost: NexusGenRootTypes['Post'] | null; // Post
+    updateDraft: NexusGenRootTypes['Post'] | null; // Post
   }
   Post: { // field return type
+    author: NexusGenRootTypes['Author'] | null; // Author
+    authorId: number | null; // Int
     body: string | null; // String
     id: number | null; // Int
     published: boolean | null; // Boolean
     title: string | null; // String
   }
   Query: { // field return type
+    allAuthors: Array<NexusGenRootTypes['Author'] | null> | null; // [Author]
     allPosts: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
+    author: NexusGenRootTypes['Author'] | null; // Author
     draftPosts: Array<NexusGenRootTypes['Post'] | null>; // [Post]!
     post: NexusGenRootTypes['Post'] | null; // Post
     publishedPosts: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
@@ -70,20 +89,33 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  Author: { // field return type name
+    firstName: 'String'
+    id: 'Int'
+    lastName: 'String'
+    posts: 'Post'
+  }
   Mutation: { // field return type name
+    createAuthor: 'Author'
     createDraft: 'Post'
     publishDraft: 'Post'
     recallPost: 'Post'
+    removeAuthor: 'Author'
     removePost: 'Post'
+    updateDraft: 'Post'
   }
   Post: { // field return type name
+    author: 'Author'
+    authorId: 'Int'
     body: 'String'
     id: 'Int'
     published: 'Boolean'
     title: 'String'
   }
   Query: { // field return type name
+    allAuthors: 'Author'
     allPosts: 'Post'
+    author: 'Author'
     draftPosts: 'Post'
     post: 'Post'
     publishedPosts: 'Post'
@@ -92,7 +124,12 @@ export interface NexusGenFieldTypeNames {
 
 export interface NexusGenArgTypes {
   Mutation: {
+    createAuthor: { // args
+      firstName: string; // String!
+      lastName: string; // String!
+    }
     createDraft: { // args
+      authorId: number; // Int!
       body: string; // String!
       title: string; // String!
     }
@@ -102,11 +139,22 @@ export interface NexusGenArgTypes {
     recallPost: { // args
       postId: number; // Int!
     }
+    removeAuthor: { // args
+      authorId: number; // Int!
+    }
     removePost: { // args
       postId: number; // Int!
     }
+    updateDraft: { // args
+      body?: string | null; // String
+      draftId: number; // Int!
+      title?: string | null; // String
+    }
   }
   Query: {
+    author: { // args
+      authorId: number; // Int!
+    }
     post: { // args
       postId: number; // Int!
     }

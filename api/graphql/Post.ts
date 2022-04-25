@@ -1,4 +1,5 @@
 import {objectType, extendType, stringArg, nonNull, intArg} from 'nexus'
+import {Prisma} from '@prisma/client'
 
 export const Post = objectType({
   name: 'Post',
@@ -7,6 +8,13 @@ export const Post = objectType({
     t.string('title')
     t.string('body')
     t.boolean('published')
+    t.int('authorId')
+    t.field('author', {
+      type: 'Author',
+      async resolve(_root, _args, ctx) {
+        return ctx.db.author.findUnique({where: {id: _root.authorId as number}})
+      }
+    })
   }
 })
 
@@ -53,13 +61,15 @@ export const PostMutation = extendType({
       type: 'Post',
       args: {
         title: nonNull(stringArg()),
-        body: nonNull(stringArg())
+        body: nonNull(stringArg()),
+        authorId: nonNull(intArg())
       },
       resolve(_root, args, ctx) {
         const draft = {
           title: args.title,
           body: args.body,
-          published: false
+          published: false,
+          authorId: args.authorId
         }
         return ctx.db.post.create({data: draft})
       }
@@ -87,6 +97,29 @@ export const PostMutation = extendType({
         return ctx.db.post.update({
           where: {id: args.postId},
           data: {published: false}
+        })
+      }
+    })
+
+    t.field('updateDraft', {
+      type: 'Post',
+      args: {
+        draftId: nonNull(intArg()),
+        title: stringArg(),
+        body: stringArg()
+      },
+      resolve(_root, args, ctx) {
+        const {title, body} = args
+        const data: {title?: string | null; body?: string | null} = {
+          title,
+          body
+        }
+        if (!title) delete data.title
+        if (!body) delete data.body
+
+        return ctx.db.post.update({
+          where: {id: args.draftId},
+          data: data as Prisma.PostUpdateWithoutAuthorInput
         })
       }
     })

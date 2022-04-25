@@ -2,13 +2,17 @@
   "name": "nexus-tutorial",
   "version": "0.1.0",
   "description": "Tutorial example using Nexus GraphQL, Apollo Server and Prisma",
-  "main": "index.js",
+  "main": "dist/api/index.js",
   "scripts": {
     "dev": "dotenv -e .env.dev ts-node-dev --transpile-only --no-notify api/index.ts",
     "build": "tsc",
     "generate": "ts-node --transpile-only api/schema",
     "test": "dotenv -e .env.test jest",
-    "pretest": "dotenv -e .env.test npm run generate "
+    "pretest": "dotenv -e .env.test npm run generate ",
+    "prisma:init": "dotenv -e .env.dev prisma init",
+    "prisma:migrate": "dotenv -e .env.dev prisma migrate dev --preview-feature",
+    "prisma:generate": "dotenv -e .env.dev prisma generate",
+    "prisma:studio": "dotenv -e .env.dev prisma studio"
   },
   "jest": {
     "preset": "ts-jest",
@@ -25,7 +29,7 @@
     ]
   },
   "keywords": [],
-  "author": "",
+  "author": "Robert L. McKenney <robert@mckeneny.ca>",
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^2.27.0",

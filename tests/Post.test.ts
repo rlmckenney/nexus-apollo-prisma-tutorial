@@ -9,7 +9,7 @@ afterAll(async () => {
   return resetDatabase()
 })
 
-const validPostProps = {title: 'Nexus', body: '...'}
+const validPostProps = {title: 'Nexus', body: '...', authorId: 1}
 
 async function createValidDraft() {
   return server.executeOperation({
@@ -26,11 +26,10 @@ describe('Post objects', () => {
     })
     expect(result.data).toBeUndefined()
     expect(result.errors).toMatchInlineSnapshot(`
-    Array [
-      [GraphQLError: Variable "$title" of required type "String!" was not provided.],
-      [GraphQLError: Variable "$body" of required type "String!" was not provided.],
-    ]
-    `)
+Array [
+  [ValidationError: Field "createDraft" argument "authorId" of type "Int!" is required, but it was not provided.],
+]
+`)
   })
 
   test('create new draft Post with all required props', async () => {
@@ -41,7 +40,8 @@ describe('Post objects', () => {
         id: expect.toBeNumber(),
         title: validPostProps.title,
         body: validPostProps.body,
-        published: false
+        published: false,
+        authorId: validPostProps.authorId
       }
     })
   })

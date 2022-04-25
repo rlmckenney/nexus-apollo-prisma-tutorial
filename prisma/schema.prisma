@@ -14,5 +14,14 @@ model Post {
   id        Int     @id @default(autoincrement())
   title     String
   body      String
-  published Boolean
+  published Boolean @default(false)
+  authorId  Int
+  author    Author  @relation(fields: [authorId], references: [id])
+}
+
+model Author {
+  id        Int    @id @default(autoincrement())
+  firstName String
+  lastName  String
+  posts     Post[]
 }

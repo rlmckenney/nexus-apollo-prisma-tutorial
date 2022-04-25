@@ -3,7 +3,7 @@ services:
   db:
     build: ./docker/postgres
     image: postgres-dev-test
-    restart: always
+    restart: 'unless-stopped'
     environment:
       POSTGRES_USER: prisma
       POSTGRES_PASSWORD: prisma

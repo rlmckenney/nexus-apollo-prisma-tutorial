@@ -1,8 +1,5 @@
 import {server} from './server'
-
-// move this to its own module to configure the non-api routes
-import express from 'express'
-const app = express()
+import {app} from './express/app'
 
 async function startApolloServer() {
   await server.start()
